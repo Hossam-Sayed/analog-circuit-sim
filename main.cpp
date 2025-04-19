@@ -5,7 +5,7 @@
 int main()
 {
     NetlistParser parser;
-    if (!parser.parse("data/example.net"))
+    if (!parser.parse("data/large_example.net"))
     {
         std::cerr << "Failed to parse netlist.\n";
         return 1;
