@@ -1,15 +1,17 @@
 #pragma once
+#include <string>
+#include <iostream>
 #include "NetlistParser.hpp"
-#include <Eigen/SparseLU>
 
 class CircuitSimulator
 {
 public:
-    CircuitSimulator(const NetlistParser &parser);
-    void solve();
+    CircuitSimulator(const std::string &netlistFile);
+    void run(); // chooses simulation type and solves
 
 private:
-    const NetlistParser &netlist;
-    void constructMNASystem(Eigen::MatrixXd &A, Eigen::VectorXd &z);
-    void print(Eigen::VectorXd x, int n);
+    NetlistParser parser;
+
+    void solveOperatingPoint();
+    void solveAC(); // stub for future
 };

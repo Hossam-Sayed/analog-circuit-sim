@@ -20,7 +20,19 @@ bool NetlistParser::parse(const std::string &filename)
         std::string name;
         iss >> name;
 
-        if (name[0] == 'R')
+        if (name == ".OP")
+        {
+            simType = SimulationType::OP;
+        }
+        else if (name == ".AC")
+        {
+            simType = SimulationType::AC;
+        }
+        else if (name == ".TRAN")
+        {
+            simType = SimulationType::TRAN;
+        }
+        else if (name[0] == 'R')
         {
             int n1, n2;
             double res;
@@ -54,4 +66,9 @@ const std::vector<VoltageSource> &NetlistParser::getVoltageSources() const
 int NetlistParser::getMaxNode() const
 {
     return maxNode;
+}
+
+SimulationType NetlistParser::getSimulationType() const
+{
+    return simType;
 }

@@ -1,18 +1,15 @@
-#include "NetlistParser.hpp"
 #include "CircuitSimulator.hpp"
-#include <iostream>
 
-int main()
+int main(int argc, char *argv[])
 {
-    NetlistParser parser;
-    if (!parser.parse("data/large_example.net"))
+    if (argc < 2)
     {
-        std::cerr << "Failed to parse netlist.\n";
+        std::cerr << "Usage: simulator <netlist file>\n";
         return 1;
     }
 
-    CircuitSimulator simulator(parser);
-    simulator.solve();
+    CircuitSimulator simulator(argv[1]);
+    simulator.run();
 
     return 0;
 }
