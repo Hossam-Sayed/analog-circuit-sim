@@ -1,3 +1,4 @@
+cd ../
 cmake -S . -B build
 cmake --build build
 ./build/simulator

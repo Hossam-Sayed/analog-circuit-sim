@@ -1,23 +1,9 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "components/Components.hpp"
 
-struct Resistor
-{
-    std::string name;
-    int node1, node2;
-    double resistance;
-};
-
-struct VoltageSource
-{
-    std::string name;
-    int node1, node2;
-    double voltage;
-};
-
-class NetlistParser
-{
+class NetlistParser {
 public:
     bool parse(const std::string &filename);
     const std::vector<Resistor> &getResistors() const;
