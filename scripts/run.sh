@@ -3,7 +3,7 @@ cd "$(dirname "$0")/.."
 
 # Set variables
 BUILD_DIR="build"
-NETLIST_FILE="data/example.net"
+NETLIST_FILE="data/large_example.net"
 EXECUTABLE="$BUILD_DIR/simulator"
 
 # Step 1: Configure and build

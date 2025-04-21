@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "components/Components.hpp"
+#include "Components/Components.hpp"
 
 enum class SimulationType
 {

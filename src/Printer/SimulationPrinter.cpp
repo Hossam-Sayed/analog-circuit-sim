@@ -1,6 +1,6 @@
-#include "SimulationPrinter.hpp"
-#include <iostream>
+#include "Printer/SimulationPrinter.hpp"
 #include <iomanip>
+#include <iostream>
 
 namespace SimulationPrinter
 {
@@ -22,5 +22,4 @@ namespace SimulationPrinter
     // Explicit template instantiation for VectorXd and VectorXcd
     template void printSolution<double>(const Eigen::VectorXd &x, int nodeCount, const std::vector<VoltageSource> &vsrcs);
     template void printSolution<std::complex<double>>(const Eigen::VectorXcd &x, int nodeCount, const std::vector<VoltageSource> &vsrcs);
-
 }

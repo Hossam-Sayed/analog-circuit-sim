@@ -1,4 +1,5 @@
-#include "CircuitSimulator.hpp"
+#include "CircuitSimulator/CircuitSimulator.hpp"
+#include <iostream>
 
 int main(int argc, char *argv[])
 {

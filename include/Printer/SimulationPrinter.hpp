@@ -2,7 +2,7 @@
 #include <Eigen/Dense>
 #include <complex>
 #include <vector>
-#include "components/VoltageSource.hpp"
+#include "Components/VoltageSource.hpp"
 
 namespace SimulationPrinter
 {

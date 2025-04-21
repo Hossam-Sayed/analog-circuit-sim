@@ -1,7 +1,6 @@
-#include "NetlistParser.hpp"
+#include "Parser/NetlistParser.hpp"
 #include <fstream>
 #include <sstream>
-#include <iostream>
 #include <algorithm>
 
 bool NetlistParser::parse(const std::string &filename)
