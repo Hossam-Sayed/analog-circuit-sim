@@ -7,5 +7,5 @@
 namespace SimulationPrinter
 {
     template <typename Scalar>
-    void printSolution(const Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &x, int nodeCount, const std::vector<VoltageSource> &vsrcs);
+    void printSolution(const Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &x, int nodeCount, int const voltageSourceCount);
 }

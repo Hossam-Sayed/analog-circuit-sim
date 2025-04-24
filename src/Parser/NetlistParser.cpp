@@ -1,4 +1,8 @@
 #include "Parser/NetlistParser.hpp"
+#include "Components/Resistor.hpp"
+#include "Components/VoltageSource.hpp"
+// Add other component includes here (e.g., CurrentSource, Capacitor, etc.)
+
 #include <fstream>
 #include <sstream>
 #include <algorithm>
@@ -20,46 +24,70 @@ bool NetlistParser::parse(const std::string &filename)
         iss >> name;
 
         if (name == ".OP")
-        {
             simType = SimulationType::OP;
-        }
         else if (name == ".AC")
-        {
             simType = SimulationType::AC;
-        }
         else if (name == ".TRAN")
-        {
             simType = SimulationType::TRAN;
-        }
         else if (name[0] == 'R')
         {
             int n1, n2;
             double res;
             iss >> n1 >> n2 >> res;
-            resistors.push_back({name, n1, n2, res});
-            maxNode = std::max({maxNode, n1, n2});
+            n1--, n2--;
+            matrixStampers.push_back(std::make_unique<Resistor>(name, n1, n2, res));
+            maxNode = std::max({maxNode, n1 + 1, n2 + 1});
         }
         else if (name[0] == 'V')
         {
             int n1, n2;
             double volt;
             iss >> n1 >> n2 >> volt;
-            voltageSources.push_back({name, n1, n2, volt});
-            maxNode = std::max({maxNode, n1, n2});
+            n1--, n2--;
+            auto vsrc = std::make_unique<VoltageSource>(name, n1, n2, volt);
+            indexedComponents[IndexType::VoltageSource].push_back(vsrc.get());
+            matrixVectorStampers.push_back(std::move(vsrc));
+            maxNode = std::max({maxNode, n1 + 1, n2 + 1});
         }
+        // Add similar logic for current sources, capacitors, inductors, etc.
     }
 
+    assignIndices();
     return true;
 }
 
-const std::vector<Resistor> &NetlistParser::getResistors() const
+void NetlistParser::assignIndices()
 {
-    return resistors;
+    static const std::vector<IndexType> orderedTypes = {
+        IndexType::VoltageSource,
+        IndexType::VCVS,
+        IndexType::CCVS,
+        IndexType::CCCS,
+        IndexType::Inductor,
+    };
+
+    int globalOffset = maxNode;
+    for (IndexType type : orderedTypes)
+    {
+        auto &vec = indexedComponents[type];
+        for (auto *comp : vec)
+            comp->setIndex(globalOffset++);
+    }
 }
 
-const std::vector<VoltageSource> &NetlistParser::getVoltageSources() const
+const std::vector<std::unique_ptr<MatrixStamper>> &NetlistParser::getMatrixStampers() const
 {
-    return voltageSources;
+    return matrixStampers;
+}
+
+const std::vector<std::unique_ptr<MatrixVectorStamper>> &NetlistParser::getMatrixVectorStampers() const
+{
+    return matrixVectorStampers;
+}
+
+const std::vector<std::unique_ptr<VectorStamper>> &NetlistParser::getVectorStampers() const
+{
+    return vectorStampers;
 }
 
 int NetlistParser::getMaxNode() const
@@ -70,4 +98,15 @@ int NetlistParser::getMaxNode() const
 SimulationType NetlistParser::getSimulationType() const
 {
     return simType;
+}
+
+const std::unordered_map<IndexType, std::vector<IndexedComponent *>> &NetlistParser::getIndexedComponents() const
+{
+    return indexedComponents;
+}
+
+int NetlistParser::getIndexedComponentCount(IndexType type) const
+{
+    auto it = indexedComponents.find(type);
+    return (it != indexedComponents.end()) ? static_cast<int>(it->second.size()) : 0;
 }

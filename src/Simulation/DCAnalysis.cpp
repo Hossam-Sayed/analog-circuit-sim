@@ -6,5 +6,7 @@ void DCAnalysis::run(const NetlistParser &netlist)
 {
     // Currently, it handles only linear analysis
     auto result = LinearSolver::solveDC(netlist);
-    SimulationPrinter::printSolution(result, netlist.getMaxNode(), netlist.getVoltageSources());
+    SimulationPrinter::printSolution(result,
+                                     netlist.getMaxNode(),
+                                     netlist.getIndexedComponentCount(IndexType::VoltageSource));
 }
