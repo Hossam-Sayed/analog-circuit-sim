@@ -1,11 +1,16 @@
 #pragma once
+
 #include <Eigen/Dense>
 #include <complex>
-#include <vector>
-#include "Components/VoltageSource.hpp"
+#include <unordered_map>
+#include "Components/IndexedComponent.hpp"
+#include "Common/IndexType.hpp"
 
 namespace SimulationPrinter
 {
     template <typename Scalar>
-    void printSolution(const Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &x, int nodeCount, int const voltageSourceCount);
+    void printSolution(
+        const Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &x,
+        int nodeCount,
+        const std::unordered_map<IndexType, std::vector<IndexedComponent *>> &indexedComponents);
 }

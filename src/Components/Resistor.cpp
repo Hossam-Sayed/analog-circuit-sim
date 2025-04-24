@@ -1,7 +1,10 @@
 #include "Components/Resistor.hpp"
 
 Resistor::Resistor(const std::string &name, int n1, int n2, double r)
-    : name(name), node1(n1), node2(n2), resistance(r) {}
+    : node1(n1), node2(n2), resistance(r)
+{
+    setName(name);
+}
 
 template <typename T>
 void Resistor::stamp(Matrix<T> &A) const

@@ -1,8 +1,11 @@
 #include "Components/VoltageSource.hpp"
 #include "Parser/NetlistParser.hpp"
 
-VoltageSource::VoltageSource(std::string vName, int nPos, int nNeg, double v)
-    : name(vName), nodePos(nPos), nodeNeg(nNeg), voltage(v) {}
+VoltageSource::VoltageSource(std::string name, int nPos, int nNeg, double v)
+    : nodePos(nPos), nodeNeg(nNeg), voltage(v)
+{
+    setName(name);
+}
 
 template <typename T>
 void VoltageSource::stamp(Matrix<T> &A, Vector<T> &z) const
@@ -21,11 +24,6 @@ void VoltageSource::stamp(Matrix<T> &A, Vector<T> &z) const
     }
 
     z(idx) += T(voltage);
-}
-
-std::string VoltageSource::getName() const
-{
-    return name;
 }
 
 // Explicit instantiations

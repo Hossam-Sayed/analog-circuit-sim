@@ -8,5 +8,5 @@ void DCAnalysis::run(const NetlistParser &netlist)
     auto result = LinearSolver::solveDC(netlist);
     SimulationPrinter::printSolution(result,
                                      netlist.getMaxNode(),
-                                     netlist.getIndexedComponentCount(IndexType::VoltageSource));
+                                     netlist.getIndexedComponents());
 }

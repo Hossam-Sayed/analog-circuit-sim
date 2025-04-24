@@ -10,7 +10,6 @@ public:
     void stamp(Matrix<T> &A) const;
 
 private:
-    std::string name;
     int node1, node2;
     double resistance;
 };
