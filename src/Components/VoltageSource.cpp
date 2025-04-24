@@ -1,8 +1,8 @@
 #include "Components/VoltageSource.hpp"
 #include "Parser/NetlistParser.hpp"
 
-VoltageSource::VoltageSource(std::string name, int nPos, int nNeg, double v)
-    : nodePos(nPos), nodeNeg(nNeg), voltage(v)
+VoltageSource::VoltageSource(const std::string &name, int nodePos, int nodeNeg, double voltage)
+    : nodePos(nodePos), nodeNeg(nodeNeg), voltage(voltage)
 {
     setName(name);
 }

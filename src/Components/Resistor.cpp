@@ -1,7 +1,7 @@
 #include "Components/Resistor.hpp"
 
-Resistor::Resistor(const std::string &name, int n1, int n2, double r)
-    : node1(n1), node2(n2), resistance(r)
+Resistor::Resistor(const std::string &name, int node1, int node2, double resistance)
+    : node1(node1), node2(node2), resistance(resistance)
 {
     setName(name);
 }

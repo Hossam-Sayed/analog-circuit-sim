@@ -1,0 +1,6 @@
+* Test circuit with current sources
+I1 1 0 2
+I2 2 0 -1
+V1 1 2 5
+R1 2 0 2
+.OP

@@ -5,7 +5,7 @@
 class VoltageSource : public MatrixVectorStamperImpl<VoltageSource>, public IndexedComponent
 {
 public:
-    VoltageSource(std::string name, int nPos, int nNeg, double v);
+    VoltageSource(const std::string &name, int nodePos, int nodeNeg, double voltage);
 
     template <typename T>
     void stamp(Matrix<T> &A, Vector<T> &z) const;

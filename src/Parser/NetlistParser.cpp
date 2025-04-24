@@ -1,6 +1,7 @@
 #include "Parser/NetlistParser.hpp"
 #include "Components/Resistor.hpp"
 #include "Components/VoltageSource.hpp"
+#include "Components/CurrentSource.hpp"
 // Add other component includes here (e.g., CurrentSource, Capacitor, etc.)
 
 #include <fstream>
@@ -49,7 +50,15 @@ bool NetlistParser::parse(const std::string &filename)
             matrixVectorStampers.push_back(std::move(vsrc));
             maxNode = std::max({maxNode, n1 + 1, n2 + 1});
         }
-        // Add similar logic for current sources, capacitors, inductors, etc.
+        else if (name[0] == 'I')
+        {
+            int n1, n2;
+            double i;
+            iss >> n1 >> n2 >> i;
+            n1--, n2--;
+            maxNode = std::max({maxNode, n1, n2});
+            vectorStampers.push_back(std::make_unique<CurrentSource>(name, n1, n2, i));
+        }
     }
 
     assignIndices();

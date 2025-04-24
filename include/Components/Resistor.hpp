@@ -4,7 +4,7 @@
 class Resistor : public MatrixStamperImpl<Resistor>
 {
 public:
-    Resistor(const std::string &name, int n1, int n2, double resistance);
+    Resistor(const std::string &name, int node1, int node2, double resistance);
 
     template <typename T>
     void stamp(Matrix<T> &A) const;
