@@ -9,15 +9,21 @@ CircuitSimulator::CircuitSimulator(const std::string &netlistFile)
         std::cerr << "Failed to parse netlist.\n";
         exit(1);
     }
-    strategy = SimulationFactory::create(parser.getSimulationType());
+
+    strategies = SimulationFactory::create(parser);
 }
 
 void CircuitSimulator::run()
 {
-    if (!strategy)
+    if (strategies.empty())
     {
-        std::cerr << "No valid strategy found.\n";
+        std::cerr << "No valid simulation strategies found.\n";
         return;
     }
-    strategy->run(parser);
+
+    for (const auto &strategy : strategies)
+    {
+        strategy->run(parser);
+        std::cout << "----------------------------------------\n";
+    }
 }

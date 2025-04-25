@@ -6,8 +6,18 @@ Resistor::Resistor(const std::string &name, int node1, int node2, double resista
     setName(name);
 }
 
+void Resistor::stampMatrixDC(Matrix<double> &A) const
+{
+    stampResistor<double>(A);
+}
+
+void Resistor::stampMatrixAC(Matrix<std::complex<double>> &A, const SimulationContext &ctx) const
+{
+    stampResistor<std::complex<double>>(A);
+}
+
 template <typename T>
-void Resistor::stamp(Matrix<T> &A) const
+void Resistor::stampResistor(Matrix<T> &A) const
 {
     T conductance = T(1.0) / T(resistance);
     if (node1 >= 0)
@@ -20,7 +30,3 @@ void Resistor::stamp(Matrix<T> &A) const
         A(node2, node1) -= conductance;
     }
 }
-
-// Explicit template instantiations
-template void Resistor::stamp(Matrix<double> &A) const;
-template void Resistor::stamp(Matrix<std::complex<double>> &A) const;

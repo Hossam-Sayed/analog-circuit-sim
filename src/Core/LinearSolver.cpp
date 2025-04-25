@@ -30,7 +30,7 @@ Eigen::VectorXd LinearSolver::solveDC(const NetlistParser &netlist)
 {
     Eigen::MatrixXd A;
     Eigen::VectorXd z;
-    MNABuilder::build<double>(netlist, A, z);
+    MNABuilder::buildDC(netlist, A, z);
 
     Eigen::SparseMatrix<double> A_sparse = A.sparseView();
     Eigen::SparseLU<Eigen::SparseMatrix<double>> solver;
@@ -38,12 +38,12 @@ Eigen::VectorXd LinearSolver::solveDC(const NetlistParser &netlist)
     return solve(A_sparse, solver, z);
 }
 
-Eigen::VectorXcd LinearSolver::solveAC(const NetlistParser &netlist)
+Eigen::VectorXcd LinearSolver::solveAC(const NetlistParser &netlist, SimulationContext ctx)
 {
-    // Incomplete AC analysis implementation
+    // TODO: Incomplete AC analysis implementation
     Eigen::MatrixXcd A;
     Eigen::VectorXcd z;
-    MNABuilder::build<std::complex<double>>(netlist, A, z);
+    MNABuilder::buildAC(netlist, ctx, A, z);
 
     Eigen::SparseMatrix<std::complex<double>> A_sparse = A.sparseView();
     Eigen::SparseLU<Eigen::SparseMatrix<std::complex<double>>> solver;

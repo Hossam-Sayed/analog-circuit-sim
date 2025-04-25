@@ -2,8 +2,6 @@
 #include "Components/Resistor.hpp"
 #include "Components/VoltageSource.hpp"
 #include "Components/CurrentSource.hpp"
-// Add other component includes here (e.g., CurrentSource, Capacitor, etc.)
-
 #include <fstream>
 #include <sstream>
 #include <algorithm>
@@ -25,11 +23,11 @@ bool NetlistParser::parse(const std::string &filename)
         iss >> name;
 
         if (name == ".OP")
-            simType = SimulationType::OP;
+            hasDC = true;
         else if (name == ".AC")
-            simType = SimulationType::AC;
+            hasAC = true;
         else if (name == ".TRAN")
-            simType = SimulationType::TRAN;
+            hasTRAN = true;
         else if (name[0] == 'R')
         {
             int n1, n2;
@@ -99,15 +97,7 @@ const std::vector<std::unique_ptr<VectorStamper>> &NetlistParser::getVectorStamp
     return vectorStampers;
 }
 
-int NetlistParser::getMaxNode() const
-{
-    return maxNode;
-}
-
-SimulationType NetlistParser::getSimulationType() const
-{
-    return simType;
-}
+int NetlistParser::getMaxNode() const { return maxNode; }
 
 const std::unordered_map<IndexType, std::vector<IndexedComponent *>> &NetlistParser::getIndexedComponents() const
 {
@@ -119,3 +109,11 @@ int NetlistParser::getIndexedComponentCount(IndexType type) const
     auto it = indexedComponents.find(type);
     return (it != indexedComponents.end()) ? static_cast<int>(it->second.size()) : 0;
 }
+
+bool NetlistParser::getHasDC() const { return hasDC; }
+
+bool NetlistParser::getHasAC() const { return hasAC; }
+
+bool NetlistParser::getHasTRAN() const { return hasTRAN; }
+
+bool NetlistParser::getIsLinear() const { return isLinear; }

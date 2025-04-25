@@ -1,16 +1,19 @@
 #include "Simulation/SimulationFactory.hpp"
 #include <iostream>
 
-std::unique_ptr<SimulationStrategy> SimulationFactory::create(SimulationType type)
+std::vector<std::unique_ptr<SimulationStrategy>> SimulationFactory::create(const NetlistParser &parser)
 {
-    switch (type)
-    {
-    case SimulationType::OP:
-        return std::make_unique<DCAnalysis>();
-    case SimulationType::AC:
-        return std::make_unique<ACAnalysis>();
-    default:
-        std::cerr << "Unsupported or unimplemented simulation type.\n";
-        return nullptr;
-    }
+    std::vector<std::unique_ptr<SimulationStrategy>> strategies;
+
+    if (parser.getHasDC())
+        strategies.push_back(std::make_unique<DCAnalysis>());
+
+    if (parser.getHasAC())
+        strategies.push_back(std::make_unique<ACAnalysis>());
+
+    // TODO: Placeholder for TRAN later
+    // if (parser.getHasTRAN())
+    //     strategies.push_back(std::make_unique<TransientAnalysis>());
+
+    return strategies;
 }

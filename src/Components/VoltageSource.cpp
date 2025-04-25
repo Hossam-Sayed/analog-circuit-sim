@@ -7,8 +7,20 @@ VoltageSource::VoltageSource(const std::string &name, int nodePos, int nodeNeg, 
     setName(name);
 }
 
+void VoltageSource::stampMatrixVectorDC(Matrix<double> &A, Vector<double> &z) const
+{
+    stampVoltageSource<double>(A, z);
+}
+
+void VoltageSource::stampMatrixVectorAC(Matrix<std::complex<double>> &A,
+                                        Vector<std::complex<double>> &z,
+                                        const SimulationContext &ctx) const
+{
+    stampVoltageSource<std::complex<double>>(A, z);
+}
+
 template <typename T>
-void VoltageSource::stamp(Matrix<T> &A, Vector<T> &z) const
+void VoltageSource::stampVoltageSource(Matrix<T> &A, Vector<T> &z) const
 {
     int idx = getIndex();
 
@@ -25,7 +37,3 @@ void VoltageSource::stamp(Matrix<T> &A, Vector<T> &z) const
 
     z(idx) += T(voltage);
 }
-
-// Explicit instantiations
-template void VoltageSource::stamp(Matrix<double> &A, Vector<double> &z) const;
-template void VoltageSource::stamp(Matrix<std::complex<double>> &A, Vector<std::complex<double>> &z) const;
