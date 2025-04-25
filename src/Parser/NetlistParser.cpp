@@ -2,6 +2,7 @@
 #include "Components/Resistor.hpp"
 #include "Components/VoltageSource.hpp"
 #include "Components/CurrentSource.hpp"
+#include "Components/Capacitor.hpp"
 #include <fstream>
 #include <sstream>
 #include <algorithm>
@@ -56,6 +57,15 @@ bool NetlistParser::parse(const std::string &filename)
             n1--, n2--;
             maxNode = std::max({maxNode, n1, n2});
             vectorStampers.push_back(std::make_unique<CurrentSource>(name, n1, n2, i));
+        }
+        else if (name[0] == 'C')
+        {
+            int n1, n2;
+            double cap;
+            iss >> n1 >> n2 >> cap;
+            n1--, n2--;
+            matrixStampers.push_back(std::make_unique<Capacitor>(name, n1, n2, cap));
+            maxNode = std::max({maxNode, n1 + 1, n2 + 1});
         }
     }
 
