@@ -1,5 +1,6 @@
 #pragma once
 #include "MNABuilder.hpp"
+#include "ACSweepPoint.hpp"
 #include <Eigen/SparseLU>
 
 class LinearSolver
@@ -14,5 +15,5 @@ public:
         const Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &z);
 
     static Eigen::VectorXd solveDC(const NetlistParser &netlist);
-    static Eigen::VectorXcd solveAC(const NetlistParser &netlist, SimulationContext ctx);
+    static std::vector<ACSweepPoint> solveAC(const NetlistParser &netlist);
 };

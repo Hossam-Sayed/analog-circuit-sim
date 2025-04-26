@@ -11,7 +11,7 @@ void Resistor::stampMatrixDC(Matrix<double> &A) const
     stampResistor<double>(A);
 }
 
-void Resistor::stampMatrixAC(Matrix<std::complex<double>> &A, const SimulationContext &ctx) const
+void Resistor::stampMatrixAC(Matrix<std::complex<double>> &A, const double omega) const
 {
     stampResistor<std::complex<double>>(A);
 }

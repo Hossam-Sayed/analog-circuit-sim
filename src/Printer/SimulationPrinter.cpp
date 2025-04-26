@@ -35,9 +35,25 @@ namespace SimulationPrinter
                 for (auto *comp : it->second)
                 {
                     int idx = comp->getIndex();
-                    std::cout << comp->getName() << " = " << x(idx) << " A\n";
+                    std::cout << comp->getName() << "#branch = " << x(idx) << " A\n";
                 }
             }
+        }
+    }
+
+    void printACSweep(const std::vector<ACSweepPoint> &results,
+                      int nodeCount,
+                      const std::unordered_map<IndexType, std::vector<IndexedComponent *>> &indexedComponents)
+    {
+        std::cout << std::fixed << std::setprecision(4);
+
+        for (const auto &res : results)
+        {
+            std::cout << "\n===============================\n";
+            std::cout << "Frequency = " << res.frequency << " Hz\n";
+            std::cout << "===============================\n";
+
+            printSolution<std::complex<double>>(res.x, nodeCount, indexedComponents);
         }
     }
 

@@ -8,12 +8,12 @@ Capacitor::Capacitor(const std::string &name, int node1, int node2, double capac
 
 void Capacitor::stampMatrixDC(Matrix<double> &A) const { return; }
 
-void Capacitor::stampMatrixAC(Matrix<std::complex<double>> &A, const SimulationContext &ctx) const
+void Capacitor::stampMatrixAC(Matrix<std::complex<double>> &A, const double omega) const
 {
-    if (!ctx.isAC() || ctx.omega == 0.0)
+    if (omega == 0.0)
         return;
 
-    std::complex<double> jomegaC = std::complex<double>(0, ctx.omega * capacitance);
+    std::complex<double> jomegaC = std::complex<double>(0, omega * capacitance);
 
     if (node1 >= 0)
         A(node1, node1) += jomegaC;

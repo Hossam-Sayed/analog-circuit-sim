@@ -11,7 +11,7 @@ void CurrentSource::stampVectorDC(Vector<double> &z) const
     stampCurrentSource<double>(z);
 }
 
-void CurrentSource::stampVectorAC(Vector<std::complex<double>> &z, const SimulationContext &ctx) const
+void CurrentSource::stampVectorAC(Vector<std::complex<double>> &z, const double omega) const
 {
     stampCurrentSource<std::complex<double>>(z);
 }

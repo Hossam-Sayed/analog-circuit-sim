@@ -26,7 +26,17 @@ bool NetlistParser::parse(const std::string &filename)
         if (name == ".OP")
             hasDC = true;
         else if (name == ".AC")
+        {
+            std::string sweepType;
+            int points;
+            double fStart, fStop;
+            iss >> sweepType >> points >> fStart >> fStop;
+            SweepType type = (sweepType == "LIN")   ? SweepType::LIN
+                             : (sweepType == "DEC") ? SweepType::DEC
+                                                    : SweepType::OCT;
+            acParams = ACParams(type, points, fStart, fStop);
             hasAC = true;
+        }
         else if (name == ".TRAN")
             hasTRAN = true;
         else if (name[0] == 'R')
@@ -87,43 +97,30 @@ void NetlistParser::assignIndices()
     for (IndexType type : orderedTypes)
     {
         auto &vec = indexedComponents[type];
+        indexedComponentsCount += vec.size();
         for (auto *comp : vec)
             comp->setIndex(globalOffset++);
     }
 }
 
-const std::vector<std::unique_ptr<MatrixStamper>> &NetlistParser::getMatrixStampers() const
-{
-    return matrixStampers;
-}
+const MatrixStampersList &NetlistParser::getMatrixStampers() const { return matrixStampers; }
 
-const std::vector<std::unique_ptr<MatrixVectorStamper>> &NetlistParser::getMatrixVectorStampers() const
-{
-    return matrixVectorStampers;
-}
+const MatrixVectorStampersList &NetlistParser::getMatrixVectorStampers() const { return matrixVectorStampers; }
 
-const std::vector<std::unique_ptr<VectorStamper>> &NetlistParser::getVectorStampers() const
-{
-    return vectorStampers;
-}
+const VectorStampersList &NetlistParser::getVectorStampers() const { return vectorStampers; }
 
-int NetlistParser::getMaxNode() const { return maxNode; }
+const int &NetlistParser::getMaxNode() const { return maxNode; }
 
-const std::unordered_map<IndexType, std::vector<IndexedComponent *>> &NetlistParser::getIndexedComponents() const
-{
-    return indexedComponents;
-}
+const int &NetlistParser::getIndexedComponentsCount() const { return indexedComponentsCount; }
 
-int NetlistParser::getIndexedComponentCount(IndexType type) const
-{
-    auto it = indexedComponents.find(type);
-    return (it != indexedComponents.end()) ? static_cast<int>(it->second.size()) : 0;
-}
+const IndexedComponentsMap &NetlistParser::getIndexedComponents() const { return indexedComponents; }
 
-bool NetlistParser::getHasDC() const { return hasDC; }
+const bool &NetlistParser::getHasDC() const { return hasDC; }
 
-bool NetlistParser::getHasAC() const { return hasAC; }
+const bool &NetlistParser::getHasAC() const { return hasAC; }
 
-bool NetlistParser::getHasTRAN() const { return hasTRAN; }
+const bool &NetlistParser::getHasTRAN() const { return hasTRAN; }
 
-bool NetlistParser::getIsLinear() const { return isLinear; }
+const bool &NetlistParser::getIsLinear() const { return isLinear; }
+
+const ACParams &NetlistParser::getACParams() const { return acParams; }

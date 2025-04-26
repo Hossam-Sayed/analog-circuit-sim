@@ -1,5 +1,5 @@
 * Simple AC capacitor test
-V1 1 0 1
+V1 1 0 1 AC 1
 C1 1 0 1e-6
 .OP
-* .AC LIN 1 1k 1k
+.AC LIN 10 1 10000

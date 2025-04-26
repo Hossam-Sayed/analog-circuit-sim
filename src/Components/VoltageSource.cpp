@@ -14,7 +14,7 @@ void VoltageSource::stampMatrixVectorDC(Matrix<double> &A, Vector<double> &z) co
 
 void VoltageSource::stampMatrixVectorAC(Matrix<std::complex<double>> &A,
                                         Vector<std::complex<double>> &z,
-                                        const SimulationContext &ctx) const
+                                        const double omega) const
 {
     stampVoltageSource<std::complex<double>>(A, z);
 }

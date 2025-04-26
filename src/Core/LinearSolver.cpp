@@ -1,4 +1,5 @@
 #include "Core/LinearSolver.hpp"
+#include "Simulation/ACParams.hpp"
 #include <iostream>
 
 template <typename Scalar>
@@ -28,9 +29,12 @@ LinearSolver::solve(const Eigen::SparseMatrix<Scalar> &A_sparse,
 
 Eigen::VectorXd LinearSolver::solveDC(const NetlistParser &netlist)
 {
-    Eigen::MatrixXd A;
-    Eigen::VectorXd z;
-    MNABuilder::buildDC(netlist, A, z);
+    int size = MNABuilder::getMatrixSize(netlist);
+    Eigen::MatrixXd A(size, size);
+    Eigen::VectorXd z(size);
+    A = Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>::Zero(size, size);
+    z = Eigen::Matrix<double, Eigen::Dynamic, 1>::Zero(size);
+    MNABuilder::stampDC(netlist, A, z);
 
     Eigen::SparseMatrix<double> A_sparse = A.sparseView();
     Eigen::SparseLU<Eigen::SparseMatrix<double>> solver;
@@ -38,17 +42,45 @@ Eigen::VectorXd LinearSolver::solveDC(const NetlistParser &netlist)
     return solve(A_sparse, solver, z);
 }
 
-Eigen::VectorXcd LinearSolver::solveAC(const NetlistParser &netlist, SimulationContext ctx)
+std::vector<ACSweepPoint> LinearSolver::solveAC(const NetlistParser &netlist)
 {
-    // TODO: Incomplete AC analysis implementation
-    Eigen::MatrixXcd A;
-    Eigen::VectorXcd z;
-    MNABuilder::buildAC(netlist, ctx, A, z);
+    int size = MNABuilder::getMatrixSize(netlist);
 
-    Eigen::SparseMatrix<std::complex<double>> A_sparse = A.sparseView();
+    Eigen::MatrixXcd A(size, size);
+    Eigen::VectorXcd z(size);
+
+    std::vector<double> freqs = netlist.getACParams().getFrequencies();
+    std::vector<ACSweepPoint> results;
+    results.reserve(freqs.size()); // Reserve once to avoid reallocations
+
     Eigen::SparseLU<Eigen::SparseMatrix<std::complex<double>>> solver;
 
-    return solve(A_sparse, solver, z);
+    // Instead of recreating A_sparse every time, define it once outside
+    Eigen::SparseMatrix<std::complex<double>> A_sparse(size, size);
+
+    for (std::size_t i = 0; i < freqs.size(); ++i)
+    {
+        double f = freqs[i];
+        double omega = 2 * M_PI * f;
+
+        // Reset A and z to zero without reallocating
+        A.setZero();
+        z.setZero();
+
+        // Stamp matrices
+        MNABuilder::stampAC(netlist, omega, A, z);
+
+        // Update A_sparse efficiently
+        A_sparse = A.sparseView();
+
+        // Solve
+        Eigen::VectorXcd x = solve(A_sparse, solver, z);
+
+        // Emplace directly into the results vector (no redundant copies)
+        results.emplace_back(ACSweepPoint{f, std::move(x)});
+    }
+
+    return results;
 }
 
 // Template instantiations (needed to avoid linker errors)

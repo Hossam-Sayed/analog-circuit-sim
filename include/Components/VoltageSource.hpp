@@ -10,7 +10,7 @@ public:
     void stampMatrixVectorDC(Matrix<double> &A, Vector<double> &z) const override;
     void stampMatrixVectorAC(Matrix<std::complex<double>> &A,
                              Vector<std::complex<double>> &z,
-                             const SimulationContext &ctx) const override;
+                             const double omega) const override;
 
     template <typename T>
     void stampVoltageSource(Matrix<T> &A, Vector<T> &z) const;
