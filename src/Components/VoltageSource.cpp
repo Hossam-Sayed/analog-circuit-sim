@@ -7,14 +7,12 @@ VoltageSource::VoltageSource(const std::string &name, int nodePos, int nodeNeg, 
     setName(name);
 }
 
-void VoltageSource::stampMatrixVectorDC(Matrix<double> &A, Vector<double> &z) const
+void VoltageSource::stampMatrixVectorDC(DoubleMatrix &A, DoubleVector &z) const
 {
     stampVoltageSource<double>(A, z);
 }
 
-void VoltageSource::stampMatrixVectorAC(Matrix<std::complex<double>> &A,
-                                        Vector<std::complex<double>> &z,
-                                        const double omega) const
+void VoltageSource::stampMatrixVectorAC(ComplexMatrix &A, ComplexVector &z, const double &omega) const
 {
     stampVoltageSource<std::complex<double>>(A, z);
 }

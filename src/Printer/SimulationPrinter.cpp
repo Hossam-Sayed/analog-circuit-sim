@@ -7,7 +7,7 @@ namespace SimulationPrinter
 {
     template <typename Scalar>
     void printSolution(const Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &x,
-                       int nodeCount,
+                       const int &nodeCount,
                        const std::unordered_map<IndexType, std::vector<IndexedComponent *>> &indexedComponents)
     {
         std::cout << std::scientific << std::setprecision(6);
@@ -42,7 +42,7 @@ namespace SimulationPrinter
     }
 
     void printACSweep(const std::vector<ACSweepPoint> &results,
-                      int nodeCount,
+                      const int &nodeCount,
                       const std::unordered_map<IndexType, std::vector<IndexedComponent *>> &indexedComponents)
     {
         std::cout << std::fixed << std::setprecision(4);
@@ -60,11 +60,11 @@ namespace SimulationPrinter
     // Explicit instantiation
     template void printSolution<double>(
         const Eigen::VectorXd &x,
-        int nodeCount,
+        const int &nodeCount,
         const std::unordered_map<IndexType, std::vector<IndexedComponent *>> &indexedComponents);
 
     template void printSolution<std::complex<double>>(
         const Eigen::VectorXcd &x,
-        int nodeCount,
+        const int &nodeCount,
         const std::unordered_map<IndexType, std::vector<IndexedComponent *>> &indexedComponents);
 }

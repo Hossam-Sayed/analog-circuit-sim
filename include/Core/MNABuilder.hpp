@@ -12,7 +12,7 @@ public:
                         Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> &A,
                         Eigen::Matrix<double, Eigen::Dynamic, 1> &z);
     static void stampAC(const NetlistParser &netlist,
-                        double omega,
+                        const double &omega,
                         Eigen::Matrix<std::complex<double>, Eigen::Dynamic, Eigen::Dynamic> &A,
                         Eigen::Matrix<std::complex<double>, Eigen::Dynamic, 1> &z);
     static void stampTRAN(const NetlistParser &netlist,

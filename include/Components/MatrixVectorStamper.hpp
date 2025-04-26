@@ -5,8 +5,6 @@
 class MatrixVectorStamper : public virtual Component
 {
 public:
-    virtual void stampMatrixVectorDC(Matrix<double> &A, Vector<double> &z) const = 0;
-    virtual void stampMatrixVectorAC(Matrix<std::complex<double>> &A,
-                                     Vector<std::complex<double>> &z,
-                                     const double omega) const = 0;
+    virtual void stampMatrixVectorDC(DoubleMatrix &A, DoubleVector &z) const = 0;
+    virtual void stampMatrixVectorAC(ComplexMatrix &A, ComplexVector &z, const double &omega) const = 0;
 };

@@ -4,8 +4,8 @@
 class IndexedComponent : public virtual Component
 {
 public:
-    int getIndex() const;
-    void setIndex(int idx);
+    const int &getIndex() const;
+    void setIndex(const int &idx);
 
 protected:
     int index = -1;

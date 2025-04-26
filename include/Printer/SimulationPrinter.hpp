@@ -12,11 +12,11 @@ namespace SimulationPrinter
     template <typename Scalar>
     void printSolution(
         const Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &x,
-        int nodeCount,
+        const int &nodeCount,
         const std::unordered_map<IndexType, std::vector<IndexedComponent *>> &indexedComponents);
 
     void printACSweep(const std::vector<ACSweepPoint> &results,
-                      int nodeCount,
+                      const int &nodeCount,
                       const std::unordered_map<IndexType, std::vector<IndexedComponent *>> &indexedComponents);
 
 }

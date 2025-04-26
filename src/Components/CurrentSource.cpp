@@ -6,12 +6,12 @@ CurrentSource::CurrentSource(const std::string &name, int node1, int node2, doub
     setName(name);
 }
 
-void CurrentSource::stampVectorDC(Vector<double> &z) const
+void CurrentSource::stampVectorDC(DoubleVector &z) const
 {
     stampCurrentSource<double>(z);
 }
 
-void CurrentSource::stampVectorAC(Vector<std::complex<double>> &z, const double omega) const
+void CurrentSource::stampVectorAC(ComplexVector &z, const double &omega) const
 {
     stampCurrentSource<std::complex<double>>(z);
 }

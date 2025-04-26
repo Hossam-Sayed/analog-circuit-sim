@@ -18,7 +18,7 @@ void MNABuilder::stampDC(const NetlistParser &netlist,
 }
 
 void MNABuilder::stampAC(const NetlistParser &netlist,
-                         double omega,
+                         const double &omega,
                          Eigen::Matrix<std::complex<double>, Eigen::Dynamic, Eigen::Dynamic> &A,
                          Eigen::Matrix<std::complex<double>, Eigen::Dynamic, 1> &z)
 {

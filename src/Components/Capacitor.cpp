@@ -6,9 +6,9 @@ Capacitor::Capacitor(const std::string &name, int node1, int node2, double capac
     setName(name);
 }
 
-void Capacitor::stampMatrixDC(Matrix<double> &A) const { return; }
+void Capacitor::stampMatrixDC(DoubleMatrix &A) const { return; }
 
-void Capacitor::stampMatrixAC(Matrix<std::complex<double>> &A, const double omega) const
+void Capacitor::stampMatrixAC(ComplexMatrix &A, const double &omega) const
 {
     if (omega == 0.0)
         return;

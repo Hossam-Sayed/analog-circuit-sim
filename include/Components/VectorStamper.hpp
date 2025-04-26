@@ -5,6 +5,6 @@
 class VectorStamper : public virtual Component
 {
 public:
-    virtual void stampVectorDC(Vector<double> &z) const = 0;
-    virtual void stampVectorAC(Vector<std::complex<double>> &z, const double omega) const = 0;
+    virtual void stampVectorDC(DoubleVector &z) const = 0;
+    virtual void stampVectorAC(ComplexVector &z, const double &omega) const = 0;
 };

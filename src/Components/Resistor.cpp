@@ -6,15 +6,9 @@ Resistor::Resistor(const std::string &name, int node1, int node2, double resista
     setName(name);
 }
 
-void Resistor::stampMatrixDC(Matrix<double> &A) const
-{
-    stampResistor<double>(A);
-}
+void Resistor::stampMatrixDC(DoubleMatrix &A) const { stampResistor<double>(A); }
 
-void Resistor::stampMatrixAC(Matrix<std::complex<double>> &A, const double omega) const
-{
-    stampResistor<std::complex<double>>(A);
-}
+void Resistor::stampMatrixAC(ComplexMatrix &A, const double &omega) const { stampResistor<std::complex<double>>(A); }
 
 template <typename T>
 void Resistor::stampResistor(Matrix<T> &A) const
