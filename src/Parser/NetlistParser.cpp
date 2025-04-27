@@ -3,6 +3,7 @@
 #include "Components/VoltageSource.hpp"
 #include "Components/CurrentSource.hpp"
 #include "Components/Capacitor.hpp"
+#include "Components/Inductor.hpp"
 #include "Utils/Benchmark.hpp"
 #include <fstream>
 #include <sstream>
@@ -77,6 +78,17 @@ bool NetlistParser::parse(const std::string &filename)
             iss >> n1 >> n2 >> cap;
             n1--, n2--;
             matrixStampers.push_back(std::make_unique<Capacitor>(name, n1, n2, cap));
+            maxNode = std::max({maxNode, n1 + 1, n2 + 1});
+        }
+        else if (name[0] == 'L')
+        {
+            int n1, n2;
+            double inductance;
+            iss >> n1 >> n2 >> inductance;
+            n1--, n2--;
+            auto inductor = std::make_unique<Inductor>(name, n1, n2, inductance);
+            indexedComponents[IndexType::Inductor].push_back(inductor.get());
+            matrixVectorStampers.push_back(std::move(inductor));
             maxNode = std::max({maxNode, n1 + 1, n2 + 1});
         }
     }

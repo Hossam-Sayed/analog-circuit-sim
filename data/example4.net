@@ -1,0 +1,20 @@
+* Inductor test
+V1 1 0 10 AC 10
+R1 1 2 100
+L1 2 0 1e-3
+
+.OP
+.AC LIN 3 500 700
+
+*.control
+*ac lin 3 500 700
+*print allv
+*print alli
+*.endc
+*.end
+
+*.control
+*op
+*print all
+*.endc
+*.end
