@@ -71,7 +71,7 @@ std::vector<ACSweepPoint> LinearSolver::solveAC(const NetlistParser &netlist)
         MNABuilder::stampAC(netlist, omega, A, z);
 
         // Update A_sparse efficiently
-        A_sparse = A.sparseView();
+        A_sparse = A.sparseView(0.0); // No pruning
 
         // Solve
         Eigen::VectorXcd x = solve(A_sparse, solver, z);

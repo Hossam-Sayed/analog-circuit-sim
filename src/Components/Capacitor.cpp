@@ -10,7 +10,7 @@ void Capacitor::stampMatrixDC(DoubleMatrix &A) const { return; }
 
 void Capacitor::stampMatrixAC(ComplexMatrix &A, const double &omega) const
 {
-    if (omega == 0.0)
+    if (std::abs(omega) < 1e-12)
         return;
 
     std::complex<double> jomegaC = std::complex<double>(0, omega * capacitance);

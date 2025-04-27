@@ -3,12 +3,14 @@
 #include "Components/VoltageSource.hpp"
 #include "Components/CurrentSource.hpp"
 #include "Components/Capacitor.hpp"
+#include "Utils/Benchmark.hpp"
 #include <fstream>
 #include <sstream>
 #include <algorithm>
 
 bool NetlistParser::parse(const std::string &filename)
 {
+    Benchmark::accumulateStart("Parsing Phase");
     std::ifstream file(filename);
     if (!file.is_open())
         return false;
@@ -80,6 +82,7 @@ bool NetlistParser::parse(const std::string &filename)
     }
 
     assignIndices();
+    Benchmark::accumulateStop("Parsing Phase");
     return true;
 }
 
